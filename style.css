@@ -1,0 +1,223 @@
+body {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+}
+
+#game-board {
+    min-width: 60%;
+    max-width: 80%;
+    width: 800px;
+    background: #a07142;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game-board>.player-area {
+    flex-basis: 20vh;
+    flex-shrink: 0;
+}
+
+.player-area {
+    background: #454e29;
+    width: 100%;
+    display: flex;
+}
+
+#player2-area {
+    flex-direction: row-reverse;
+}
+
+#board-map {
+    position: relative;
+    flex-basis: 100%;
+    background: #290e04;
+    width: 100%;
+}
+
+
+#board-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.board-grid-row {
+    flex-basis: 100%;
+    flex-shrink: 1;
+    background: #c7b108;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.board-grid-cell {
+    position: relative;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+    border: 2px solid #414f0c;
+    background: #939568;
+}
+
+.board-grid-cell-image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: contain;
+    filter: brightness(70%);
+}
+
+.board-player {
+    width: 200px;
+    height: 75px;
+    background: green;
+    flex-shrink: 0;
+}
+
+/* Cards styling */
+
+.player-cards {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+    align-items: center;
+    flex-basis: 80%;
+    background: rgb(99, 69, 40);
+    padding: 0 2rem;
+    gap: 1rem;
+}
+
+.card-player {
+    position: relative;
+    background: radial-gradient(circle,
+            #35691f,
+            #3b7623 20%,
+            #426f26 40%,
+            #2b5818 60%,
+            #234613 80%,
+            #1a340e 100%);
+    padding: 8px;
+    border-radius: 8px;
+    height: 80%;
+    aspect-ratio: 1 / 1.7;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.card-player.is-active {
+    cursor: pointer;
+}
+
+.card-player-cost {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-25%, -25%);
+    padding: 0.5rem;
+    border-radius: 50%;
+    background: #1395bd;
+    background: radial-gradient(circle,
+            #1395bd,
+            #127a9a 30%,
+            #256d7e 60%,
+            #477985 100%);
+    color: #fff;
+    z-index: 1000;
+    aspect-ratio: 1 / 1;
+    line-height: 0;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.card-player-img {
+    position: relative;
+    width: 100%;
+    padding-bottom: 115%;
+    overflow: hidden;
+}
+
+.card-player-img img {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    top: -20%;
+}
+
+.card-player h3 {
+    color: #fff;
+    font-size: 80%;
+    margin: 0.25rem 0 0.5rem 0;
+}
+
+.card-stats {
+    margin-top: auto;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.card-stat {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    color: white;
+    padding: 0.125rem;
+}
+
+.card-board-stats .card-stat {
+    font-size: 1.25rem;
+}
+
+.board-cell-action {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-size: cover;
+}
+
+.action-spawn-card {
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --%3E%3Csvg width='800px' height='800px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 12.6111L8.92308 17.5L20 6.5' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.action-not-allowed {
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --%3E%3Csvg width='800px' height='800px' viewBox='0 0 1024 1024' class='icon' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M512 128C300.8 128 128 300.8 128 512s172.8 384 384 384 384-172.8 384-384S723.2 128 512 128z m0 85.333333c66.133333 0 128 23.466667 179.2 59.733334L273.066667 691.2C236.8 640 213.333333 578.133333 213.333333 512c0-164.266667 134.4-298.666667 298.666667-298.666667z m0 597.333334c-66.133333 0-128-23.466667-179.2-59.733334l418.133333-418.133333C787.2 384 810.666667 445.866667 810.666667 512c0 164.266667-134.4 298.666667-298.666667 298.666667z' fill='%23D50000' /%3E%3C/svg%3E");
+}
+
+.cardboard-unit-player-2 {
+    position: absolute;
+    bottom: 0;
+}
+
+.card-stat img {
+    display: block;
+    width: 0.75rem;
+    height: 0.75rem;
+    filter: invert(1)
+}
+
+.card-stat span {
+    margin-left: 0.25rem;
+}
