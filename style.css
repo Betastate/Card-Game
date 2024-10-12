@@ -184,8 +184,14 @@ body {
     padding: 0.125rem;
 }
 
+.card-board-stats {
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 .card-board-stats .card-stat {
     font-size: 1.25rem;
+    background: #000;
 }
 
 .board-cell-action {

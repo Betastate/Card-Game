@@ -50,14 +50,14 @@ window.addEventListener("load", () => {
                 img: "./img/cards/goblin.jpg"
             },
             {
-                name: "Goblin",
+                name: "Blood Orc",
                 stats: {
-                    attack: 5,
-                    health: 15,
-                    cost: 5,
+                    attack: 15,
+                    health: 25,
+                    cost: 8,
                     move: 1
                 },
-                img: "./img/cards/goblin.jpg"
+                img: "./img/cards/blood-orc.jpg"
             },
         ],
         health: 100,
@@ -125,8 +125,41 @@ window.addEventListener("load", () => {
 function activateCard(player, cardNumber) {
     const card = player.hand[cardNumber];
     selectingGrid.action = "action-spawn-card";
+    selectingGrid.card = card;
+    selectingGrid.cardNumber = cardNumber;
+    selectingGrid.fraction = player.fraction;
     calculateGridSpawn(player);
 
+    updateUI();
+}
+
+function spawnSelectedCard(position) {
+    if (!selectingGrid.action || !selectingGrid.card) {
+        console.error("Unexpted logic flow");
+        return;
+    }
+    grid[position.y][position.x] = {
+        name: selectingGrid.card.name,
+        stats: {
+            attack: selectingGrid.card.stats.attack,
+            health: selectingGrid.card.stats.health,
+            move: selectingGrid.card.stats.move
+        },
+        position: {
+            x: position.x,
+            y: position.y
+        },
+        img: selectingGrid.card.img,
+        fraction: selectingGrid.fraction
+    }
+    console.log(grid[position.y][position.x])
+
+
+    const player = selectingGrid.fraction === 1 ? player1 : player2;
+
+    player.hand.splice(selectingGrid.cardNumber, 1);
+    selectingGrid = {}
+    clearGridSpawn();
     updateUI();
 }
 
@@ -150,7 +183,6 @@ function clearGridSpawn() {
 }
 
 function canSpawnCell(position, fraction) {
-    console.log(position)
     if ((grid[position.y - 1] && grid[position.y - 1][position.x]?.name === "tower" && grid[position.y - 1][position.x]?.fraction === fraction)
         || (grid[position.y - 1] && grid[position.y - 1][position.x + 1]?.name === "tower" && grid[position.y - 1][position.x + 1]?.fraction === fraction)
         || (grid[position.y] && grid[position.y][position.x + 1]?.name === "tower" && grid[position.y][position.x + 1]?.fraction === fraction)
@@ -228,6 +260,13 @@ function updateUI() {
             }
 
             gridCells[(i * grid[i].length) + p].innerHTML = cellHTML;
+
+            if (item.action === "action-spawn-card") {
+                const actionCoverPanel = gridCells[(i * grid[i].length) + p].querySelector(".board-cell-action");
+                actionCoverPanel.addEventListener("click", () => {
+                    spawnSelectedCard({ x: p, y: i })
+                });
+            }
         }
     }
 }
